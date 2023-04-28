@@ -1,51 +1,49 @@
 use std::io;
 use std::io::Write;
 
-// Function to read and parse a f64 number from user input
-fn read_number(prompt: &str) -> f64 {
+fn get_number(prompt: &str) -> f64 {
     let mut input = String::new();
     print!("{}", prompt);
-    io::stdout().flush().unwrap(); // Flush stdout to display the prompt before waiting for input
-    io::stdin().read_line(&mut input).expect("Failed to read input");
+    io::stdout().flush().unwrap();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read input");
     input.trim().parse().expect("Invalid number")
 }
 
-// Function to read an operator from user input
-fn read_operator(prompt: &str) -> String {
+fn get_operator(prompt: &str) -> char {
     let mut input = String::new();
     print!("{}", prompt);
-    io::stdout().flush().unwrap(); // Flush stdout to display the prompt before waiting for input
-    io::stdin().read_line(&mut input).expect("Failed to read input");
-    input.trim().to_string()
+    io::stdout().flush().unwrap();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read input");
+    input.trim().parse().expect("Invalid operator")
 }
 
-fn error_message(error: &str) -> String {
-    format!("Error: {}", error)
-}
-
-fn perform_operation(num1: f64, num2: f64, operator: &str) -> Result<f64, String> {
+fn perform_operation(num1: f64, num2: f64, operator: char) -> Result<f64, String> {
     match operator {
-        "+" => Ok(num1 + num2),
-        "-" => Ok(num1 - num2),
-        "*" => Ok(num1 * num2),
-        "/" => {
+        '+' => Ok(num1 + num2),
+        '-' => Ok(num1 - num2),
+        '*' => Ok(num1 * num2),
+        '/' => {
             if num2 != 0.0 {
                 Ok(num1 / num2)
             } else {
-                Err(error_message("Division by zero!"))
+                Err(String::from("Error: Division by zero!"))
             }
         }
-        _ => Err(error_message("Invalid operator!")),
+        _ => Err(String::from("Error: Invalid operator!")),
     }
 }
 
 fn main() {
-    let first_number = read_number("Enter the first number: ");
-    let second_number = read_number("Enter the second number: ");
-    let operator = read_operator("Enter an operator (+, -, *, /): ");
+    let num1 = get_number("Enter the first number: ");
+    let num2 = get_number("Enter the second number: ");
+    let operator = get_operator("Enter an operator (+, -, *, /): ");
 
-    match perform_operation(first_number, second_number, &operator) {
-        Ok(result) => println!("{:.2} {} {:.2} = {:.2}", first_number, operator, second_number, result),
+    match perform_operation(num1, num2, operator) {
+        Ok(result) => println!("{:.2} {} {:.2} = {:.2}", num1, operator, num2, result),
         Err(error) => println!("{}", error),
     }
 }
@@ -55,32 +53,38 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_addition() {
-        assert_eq!(perform_operation(2.0, 3.0, "+").unwrap(), 5.0);
+    fn test_perform_operation_addition() {
+        let result = perform_operation(5.0, 3.0, '+').unwrap();
+        assert_eq!(result, 8.0);
     }
 
     #[test]
-    fn test_subtraction() {
-        assert_eq!(perform_operation(5.0, 3.0, "-").unwrap(), 2.0);
+    fn test_perform_operation_subtraction() {
+        let result = perform_operation(5.0, 3.0, '-').unwrap();
+        assert_eq!(result, 2.0);
     }
 
     #[test]
-    fn test_multiplication() {
-        assert_eq!(perform_operation(2.0, 3.0, "*").unwrap(), 6.0);
+    fn test_perform_operation_multiplication() {
+        let result = perform_operation(5.0, 3.0, '*').unwrap();
+        assert_eq!(result, 15.0);
     }
 
     #[test]
-    fn test_division() {
-        assert_eq!(perform_operation(6.0, 3.0, "/").unwrap(), 2.0);
+    fn test_perform_operation_division() {
+        let result = perform_operation(6.0, 3.0, '/').unwrap();
+        assert_eq!(result, 2.0);
     }
 
     #[test]
-    fn test_division_by_zero() {
-        assert_eq!(perform_operation(6.0, 0.0, "/").unwrap_err(), error_message("Division by zero!"));
+    #[should_panic(expected = "Error: Division by zero!")]
+    fn test_perform_operation_division_by_zero() {
+        perform_operation(5.0, 0.0, '/').unwrap();
     }
 
     #[test]
-    fn test_invalid_operator() {
-        assert_eq!(perform_operation(6.0, 3.0, "x").unwrap_err(), error_message("Invalid operator!"));
+    #[should_panic(expected = "Error: Invalid operator!")]
+    fn test_perform_operation_invalid_operator() {
+        perform_operation(5.0, 3.0, '%').unwrap();
     }
 }

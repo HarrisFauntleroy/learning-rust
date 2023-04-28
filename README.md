@@ -23,6 +23,7 @@ cd learning-rust/project-directory
 ```
 
 ## Compilation
+
 To compile a project, run the following command in the project's directory:
 
 ```sh
@@ -32,6 +33,7 @@ cargo build
 This will create a binary executable for the project.
 
 ## Usage
+
 To run a project, execute the following command in the project's directory:
 
 ```sh
@@ -41,6 +43,7 @@ cargo run
 Follow any prompts or instructions provided by the specific project.
 
 ## Testing
+
 To run tests for a project, execute the following command in the project's directory:
 
 ```sh
@@ -48,3 +51,11 @@ cargo test
 ```
 
 This will run all tests associated with the project and display the results.
+
+## Formatting
+
+To format Rust code, you can use the rustfmt command. This is also a tool that comes with the Rust installation and is used to format Rust code in a standardized way. 
+
+```sh
+rustfmt ./project-name/example.rs
+```
