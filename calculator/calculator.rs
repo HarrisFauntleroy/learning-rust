@@ -48,43 +48,44 @@ fn main() {
     }
 }
 
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_perform_operation_addition() {
-        let result = perform_operation(5.0, 3.0, '+').unwrap();
-        assert_eq!(result, 8.0);
-    }
+#[test]
+fn test_perform_operation_addition() {
+    let result = perform_operation(5.0, 3.0, '+').unwrap();
+    assert_eq!(result, 8.0);
+}
 
-    #[test]
-    fn test_perform_operation_subtraction() {
-        let result = perform_operation(5.0, 3.0, '-').unwrap();
-        assert_eq!(result, 2.0);
-    }
+#[test]
+fn test_perform_operation_subtraction() {
+    let result = perform_operation(5.0, 3.0, '-').unwrap();
+    assert_eq!(result, 2.0);
+}
 
-    #[test]
-    fn test_perform_operation_multiplication() {
-        let result = perform_operation(5.0, 3.0, '*').unwrap();
-        assert_eq!(result, 15.0);
-    }
+#[test]
+fn test_perform_operation_multiplication() {
+    let result = perform_operation(5.0, 3.0, '*').unwrap();
+    assert_eq!(result, 15.0);
+}
 
-    #[test]
-    fn test_perform_operation_division() {
-        let result = perform_operation(6.0, 3.0, '/').unwrap();
-        assert_eq!(result, 2.0);
-    }
+#[test]
+fn test_perform_operation_division() {
+    let result = perform_operation(6.0, 3.0, '/').unwrap();
+    assert_eq!(result, 2.0);
+}
 
-    #[test]
-    #[should_panic(expected = "Error: Division by zero!")]
-    fn test_perform_operation_division_by_zero() {
-        perform_operation(5.0, 0.0, '/').unwrap();
-    }
+#[test]
+#[should_panic(expected = "Error: Division by zero!")]
+fn test_perform_operation_division_by_zero() {
+    perform_operation(5.0, 0.0, '/').unwrap();
+}
 
-    #[test]
-    #[should_panic(expected = "Error: Invalid operator!")]
-    fn test_perform_operation_invalid_operator() {
-        perform_operation(5.0, 3.0, '%').unwrap();
-    }
+#[test]
+#[should_panic(expected = "Error: Invalid operator!")]
+fn test_perform_operation_invalid_operator() {
+    perform_operation(5.0, 3.0, '%').unwrap();
+}
 }
